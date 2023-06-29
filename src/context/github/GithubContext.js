@@ -41,14 +41,14 @@ export const GithubProvider = ({children}) => {
     //Get a single user 
     const getUser = async (login) => {
       setLoading()
-  
+      console.log('login: ', login);
       const response = await fetch(`${url}/users/${login}`, //url = process.env.REACT_APP_GITHUB_URL
       {
           headers: {
             Authorization: `token ${token}`
           }
         })
-  
+      console.log(response);
         if (response === 404) {
           window.location = 'not found'
         } else {
