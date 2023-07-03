@@ -4,8 +4,8 @@ import { useParams, Link } from 'react-router-dom'
 import Spinner from '../components/layout/Spinner'
 import RepoList from '../components/repos/RepoList'
 import GithubContext from '../context/github/GithubContext'
-import { getUser, getUserRepos } from '../context/github/GithubActions'
-
+//import { getUser, getUserRepos } from '../context/github/GithubActions'
+import { getUserAndRepos } from '../context/github/GithubActions'
 function User() {
   const { user, loading, repos, dispatch } = useContext(GithubContext)
 
@@ -14,13 +14,16 @@ function User() {
   useEffect(() => {
     dispatch({ type: 'SET_LOADING' })
     const getUserData = async () => {
-      const userData = await getUser(params.login)
-      dispatch({ type: 'GET_USER', payload: userData })
+      // const userData = await getUser(params.login)
+      // dispatch({ type: 'GET_USER', payload: userData })
 
-      const userRepoData = await getUserRepos(params.login)
-      dispatch({ type: 'GET_REPOS', payload: userRepoData })
+      // const userRepoData = await getUserRepos(params.login)
+      // dispatch({ type: 'GET_REPOS', payload: userRepoData })
+
+      const userData = await getUserAndRepos(params.login)
+      dispatch({ type: 'GET_USER_AND_REPOS', payload: userData })
     }
-
+    
     getUserData()
   }, [dispatch, params.login])
 
@@ -46,16 +49,7 @@ function User() {
   }
 
   // NOTE: check for valid url to users website
-
   const websiteUrl = blog?.startsWith('http') ? blog : 'https://' + blog
-
-  // NOTE: code here has been fixed so that stats no longer show scroll bar on
-  // mobile / small devices
-  // https://www.udemy.com/course/react-front-to-back-2022/learn/lecture/29768968#questions/16902278
-
-  // NOTE: if you are having problems with the name and login showing at the top
-  // of the image then you need the className='flex-grow-0' on the <p> tag
-  // default styling on <p> in daisyUI now has flex-grow-1
 
   return (
     <>
